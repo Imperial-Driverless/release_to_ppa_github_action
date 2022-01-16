@@ -1,0 +1,17 @@
+name: Build and push to PPA
+
+on:
+  push:
+    paths:
+      - 'package.xml'
+
+jobs:
+    build:
+        runs-on: ubuntu-20.04
+        container:
+            image: osrf/ros:galactic-desktop
+        steps:
+            - uses: actions/checkout@v2
+            - run: bloom-generate rosdebian
+            - run: fakeroot debian/rules binary
+            - run: ls ..
